@@ -1,0 +1,57 @@
+<%- include("../layout/header") %>
+<body class="text-gray-900">
+  <a href="/users" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">< Volver</a>
+   
+  <% if (success) { %>
+    <div
+      id="flash-message"
+      class="mx-auto max-w-xs text-center rounded-md mb-4 p-4 bg-green-100 text-green-800"
+    >
+      <p class="font-semibold"><%= success %></p>
+    </div>
+    <script>
+      setTimeout(() => {
+        const msg = document.getElementById('flash-message');
+        if (msg) msg.remove();
+      }, 5000);
+    </script>
+  <% } %>
+
+  <div class="min-h-screen">
+    <div class="container mx-auto p-12 bg-gray-100 mt-8 max-w-2xl rounded-md">
+        <div class="flex">
+          <div class="flex-shrink-0 mr-6">
+            <% if (usuario.foto) { %>
+              <img
+                src="<%= usuario.foto %>"
+                alt="Foto de <%= usuario.nombre %>"
+                class="w-48 h-48 object-cover"
+              >
+            <% } else { %>
+              <div class="w-24 h-24 rounded-full bg-gray-400 flex items-center justify-center text-white">
+                —
+              </div>
+            <% } %>
+          </div>
+
+          <div class="space-y-2">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4"> <%= usuario.nombre %><span class="ml-1 text-sm">(ID <%= usuario.id %>)</span></h1> 
+            <p><strong>Email:</strong> <%= usuario.email %></p>
+            <p><strong>Fecha Nacimiento:</strong> <%= usuario.fecha_nacimiento.toLocaleDateString() %></p>
+            <p><strong>Rol:</strong> <%= usuario.rol %></p>
+            <p>
+              <strong>Equipo:</strong>
+              <% if (usuario.equipo_nombre) { %>
+                <%= usuario.equipo_nombre %>
+              <% } else { %>
+                Ninguno
+              <% } %>
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <%- include("../layout/footer") %>
+</body>

@@ -1,0 +1,57 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@g-loot/react-tournament-brackets": "^1.0.31-rc",
+    "@heroicons/react": "^1.0.6",
+    "@tailwindcss/vite": "^4.1.5",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "bottleneck": "^2.19.5",
+    "date-fns-tz": "^3.2.0",
+    "flag-icon-css": "^4.1.7",
+    "font-awesome": "^4.7.0",
+    "html2canvas": "^1.4.1",
+    "jwt-decode": "^4.0.0",
+    "leaflet": "^1.9.4",
+    "leaflet-color-markers": "^0.1.0",
+    "nodemon": "^3.1.10",
+    "react": "^19.1.0",
+    "react-calendar": "^5.1.0",
+    "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.5.3",
+    "react-scripts": "5.0.1",
+    "tailwindcss": "^4.1.5",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "react-scripts start"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

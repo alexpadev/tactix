@@ -1,0 +1,102 @@
+<%- include("../layout/header") %>
+<body class="text-gray-900">
+  <a href="/users" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">< Volver</a>
+
+  <div class="min-h-screen">
+    <div class="bg-gray-100 max-w-2xl mt-10 rounded-md container mx-auto p-8">
+        <h1 class="text-2xl text-gray-800 font-bold mb-10 text-center">Editar Usuario</h1>
+        <form action="/users/<%= usuario.id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="space-y-4">
+          
+          <div class="flex items-start space-x-6 mb-6">
+            <div>
+              <img
+                id="photoPreview"
+                src="<%= usuario.foto || '/images/default-avatar.png' %>"
+                alt="Foto de usuario"
+                class="w-36 h-40 hover:opacity-70 transition object-cover cursor-pointer"
+              >
+              <input type="file" name="foto" id="fotoInput" accept="image/*" class="hidden">
+            </div>
+            <div class="flex-1 space-y-4">
+              <div>
+                <label class="block mb-1">Nombre</label>
+                <input
+                  name="nombre"
+                  value="<%= usuario.nombre %>"
+                  class="p-2 w-full rounded"
+                  required
+                >
+              </div>
+              <div>
+                <label class="block mb-1">Email</label>
+                <input
+                  name="email"
+                  type="email"
+                  value="<%= usuario.email %>"
+                  class="p-2 w-full rounded"
+                  required
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="flex w-full space-x-5">
+
+            <div class="w-2/4">
+              <label class="block mb-1">Contraseña (opcional)</label>
+              <input name="contraseña" type="password" class="p-2 w-full">
+            </div>
+
+            <div class="w-1/4">
+              <label class="block mb-1">Fecha Nacimiento</label>
+              <input
+                name="fecha_nacimiento"
+                type="date"
+                value="<%= usuario.fecha_nacimiento.toISOString().slice(0,10) %>"
+                class="p-2 w-full"
+                required
+              >
+            </div>
+
+            <div class="w-1/5">
+              <label class="block mb-1">Rol</label>
+              <select name="rol" class="p-2 w-full bg-white mb-7" required>
+                <option value="user"  <%= usuario.rol==='user'  ? 'selected' : '' %>>User</option>
+                <option value="admin" <%= usuario.rol==='admin' ? 'selected' : '' %>>Admin</option>
+              </select>
+            </div>
+
+          </div>
+
+          
+
+          <div class="flex w-full space-x-3">
+            <button type="submit" class="w-3/4 cursor-pointer bg-gray-800 hover:bg-gray-900 transition font-semibold text-white py-3 px-4 rounded-full">
+              Actualizar
+            </button>
+            <a href="/users" class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full">
+              Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+  <script>
+    const photoPreview = document.getElementById('photoPreview');
+    const fotoInput = document.getElementById('fotoInput');
+
+    photoPreview.addEventListener('click', () => {
+      fotoInput.click();
+    });
+
+    fotoInput.addEventListener('change', () => {
+      const file = fotoInput.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      photoPreview.src = url;
+    });
+  </script>
+
+  <%- include("../layout/footer") %>
+</body>

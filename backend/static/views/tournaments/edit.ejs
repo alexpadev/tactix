@@ -1,0 +1,75 @@
+<%- include("../layout/header") %>
+<body class="text-gray-900">
+  <a href="/tournaments/<%= torneo.id %>" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">&lt; Volver</a>
+
+  <div class="min-h-screen">
+    <div class="bg-gray-100 max-w-2xl mt-10 rounded-md container mx-auto p-8">
+      <h1 class="text-2xl text-gray-800 font-bold mb-8 text-center">Editar Torneo</h1>
+
+      <% if (error) { %>
+        <p class="text-red-500 mb-4"><%= error %></p>
+      <% } %>
+
+      <form action="/tournaments/<%= torneo.id %>?_method=PUT" method="POST" class="space-y-4">
+        <div>
+          <label class="block mb-1">Nombre</label>
+          <input name="nombre" value="<%= torneo.nombre %>" class="p-2 w-full rounded border" required>
+        </div>
+
+        <div>
+          <label class="block mb-1">Descripción</label>
+          <textarea name="descripcion" class="p-2 w-full rounded border"><%= torneo.descripcion %></textarea>
+        </div>
+
+        <div>
+          <label class="block mb-1">Fecha y hora</label>
+          <input
+            type="datetime-local"
+            name="fecha"
+            class="p-2 w-full rounded border"
+            value="<%= new Date(torneo.fecha).toISOString().slice(0,16) %>"
+            required
+          >
+        </div>
+
+        <div class="flex space-x-4">
+          <div class="flex-1">
+            <label class="block mb-1">Ubicación X</label>
+            <input type="number" name="ubicacion_x" value="<%= torneo.ubicacion_x %>" class="p-2 w-full rounded border">
+          </div>
+          <div class="flex-1">
+            <label class="block mb-1">Ubicación Y</label>
+            <input type="number" name="ubicacion_y" value="<%= torneo.ubicacion_y %>" class="p-2 w-full rounded border">
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1">Máx. Equipos</label>
+          <input type="number" name="max_equipos" min="2" value="<%= torneo.max_equipos %>"
+                 class="p-2 w-1/4 rounded border" required>
+        </div>
+
+        <div>
+          <label class="block mb-1">Estado</label>
+          <select name="estado" class="p-2 w-1/4 rounded border">
+            <% ['abierto','en_progreso','finalizado'].forEach(st => { %>
+              <option value="<%= st %>" <%= torneo.estado===st ? 'selected' : '' %>><%= st %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="flex space-x-3">
+          <button type="submit"
+                  class="bg-gray-800 hover:bg-gray-900 text-white font-semibold py-3 px-6 rounded-full">
+            Guardar cambios
+          </button>
+          <a href="/tournaments/<%= torneo.id %>"
+             class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-3 px-6 rounded-full">
+            Cancelar
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+<%- include("../layout/footer") %>
+</body>

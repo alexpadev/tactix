@@ -1,0 +1,62 @@
+<%- include("../layout/header") %>
+<body class="text-gray-900">
+  <a href="/games" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
+    &lt; Volver
+  </a>
+  
+  <div class="min-h-screen">
+    <div class="container mx-auto p-12 bg-gray-100 mt-8 max-w-xl rounded-md">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">
+          Partido #<%= game.id %>
+        </h1>
+
+        <div class="space-y-3 text-gray-700">
+          <p>
+            <strong>Fecha y Hora:</strong>
+            <%= new Date(game.fecha_inicio).toLocaleString() %>
+          </p>
+          <p>
+            <strong>Ubicación:</strong>
+            X=<%= game.ubicacion_x ?? '—' %>, Y=<%= game.ubicacion_y ?? '—' %>
+          </p>
+          <p>
+            <strong>Equipo 1:</strong>
+            <% if (game.equipo1) { %>
+              <%= game.equipo1 %> (ID: <%= game.equipo1_id %>)
+            <% } else { %>
+              — (ID: <%= game.equipo1_id %>)
+            <% } %>
+          </p>
+          <p>
+            <strong>Equipo 2:</strong>
+            <% if (game.equipo2) { %>
+              <%= game.equipo2 %> (ID: <%= game.equipo2_id %>)
+            <% } else { %>
+              — (ID: <%= game.equipo2_id %>)
+            <% } %>
+          </p>
+        </div>
+
+        <div class="mt-8 flex space-x-4">
+          <a
+            href="/games/<%= game.id %>/edit"
+            class="text-green-500 font-semibold hover:underline"
+          >
+            ✏️ Editar
+          </a>
+          <form
+            action="/games/<%= game.id %>?_method=DELETE"
+            method="POST"
+            class="inline"
+            onsubmit="return confirm('¿Seguro que deseas borrar este partido?');"
+          >
+            <button type="submit" class="text-red-500 font-semibold hover:underline">
+              🗑️ Borrar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+  <%- include("../layout/footer") %>
+</body>

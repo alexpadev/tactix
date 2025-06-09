@@ -1,0 +1,183 @@
+<%- include('../layout/header') %>
+
+<body class="text-gray-900">
+  <div class="container mx-auto p-6">
+     <% if (success) { %>
+      <div
+        id="flash-message"
+        class="mx-auto max-w-xs text-center rounded-md mb-4 p-4 bg-green-100 text-green-800"
+      >
+        <p class="font-semibold"><%= success %></p>
+      </div>
+      <script>
+        setTimeout(() => {
+          const msg = document.getElementById('flash-message');
+          if (msg) msg.remove();
+        }, 5000);
+      </script>
+    <% } %>
+    <div class="min-h-screen">
+      <div class="container mx-auto p-8">
+        <h1 class="text-2xl text-gray-800 font-bold mb-4">Lista de Usuarios</h1>
+        <a href="/users/new" class="bg-yellow-400 text-gray-800 font-semibold hover:bg-yellow-300 transition py-2 px-4 rounded-full mb-4 inline-block">
+          + Nuevo Usuario
+        </a>
+
+        <form method="GET" action="/users" class="mb-6 flex items-center space-x-4">
+          <input
+            type="text"
+            name="q"
+            value="<%= q %>"
+            placeholder="Buscar por nombre, id o email..."
+            class="border border-gray-300 rounded-full px-6 py-2 flex-1"
+          />
+
+          <select
+            name="sort"
+            class="border border-gray-300 rounded px-3 py-2 cursor-pointer"
+          >
+            <option value="asc"  <%= sort === 'asc'  ? 'selected' : '' %>>A–Z</option>
+            <option value="desc" <%= sort === 'desc' ? 'selected' : '' %>>Z–A</option>
+          </select>
+
+          <button
+            type="submit"
+            class="bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-900 transition"
+          >
+            Filtrar
+          </button>
+        </form>
+
+        <table class="min-w-full table-auto border-collapse border border-gray-300">
+          <thead>
+            <tr>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">ID</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Nombre</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Foto</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Equipo</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Rol</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Email</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% usuarios.forEach(usuario => { %>
+              <tr>
+                <td class="px-4 py-2 border border-gray-300"><%= usuario.id %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= usuario.nombre %></td>
+                <td class="py-2 border border-gray-300">
+                  <% if (usuario.foto) { %>
+                    <img 
+                      src="<%= usuario.foto %>" 
+                      alt="Foto de <%= usuario.nombre %>" 
+                      class="w-10 h-10 mx-auto"
+                    >
+                  <% } else { %>
+                    <img 
+                      src="/uploads/user_placeholder.png" 
+                      alt="Foto por defecto" 
+                      class="w-10 h-10 mx-auto"
+                    >
+                  <% } %>
+                </td>
+                <td class="px-4 py-2 border border-gray-300">
+                  <% if (usuario.equipo_nombre) { %>
+                    <a 
+                      href="/teams/<%= usuario.equip_id %>" 
+                      class="text-gray-700 font-semibold hover:text-gray-900"
+                    ><%= usuario.equipo_nombre %></a>
+                  <% } else { %>
+                    <p class="text-gray-700">Sin equipo</p>
+                  <% } %>            
+                </td>
+                <td class="px-4 py-2 border border-gray-300"><%= usuario.rol %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= usuario.email %></td>
+                <td class="px-4 py-2 space-x-2 border border-gray-300 text-center">
+                  <a href="/users/<%= usuario.id %>" class="text-green-500">Ver</a>
+                  <a href="/users/<%= usuario.id %>/edit" class="text-blue-500">Editar</a>
+                  <form action="/users/<%= usuario.id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Estás seguro de que deseas borrar este usuario?');">
+                    <button type="submit" class="text-red-500">Borrar</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <nav class="mt-6 flex justify-center items-center space-x-2">
+          <% /* Anterior */ %>
+          <% if (currentPage > 1) { %>
+            <a
+              href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage-1}` %>"
+              class="px-3 py-1 border rounded hover:bg-gray-200"
+            >« Anterior</a>
+          <% } else { %>
+            <span class="px-3 py-1 border text-gray-400 cursor-not-allowed">« Anterior</span>
+          <% } %>
+
+          <% 
+            const delta = 2;
+            const total = totalPages;
+            const current = currentPage;
+            const start = Math.max(2, current - delta);
+            const end   = Math.min(total - 1, current + delta);
+          %>
+
+          <% if (current === 1) { %>
+            <span class="px-3 py-1 border bg-gray-800 text-white">1</span>
+          <% } else { %>
+            <a
+              href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=1` %>"
+              class="px-3 py-1 border rounded hover:bg-gray-200"
+            >1</a>
+          <% } %>
+
+          <% if (start > 2) { %>
+            <span class="px-2">…</span>
+          <% } %>
+
+          <% /* Páginas intermedias */ %>
+          <% for (let p = start; p <= end; p++) { %>
+            <% if (p === current) { %>
+              <span class="px-3 py-1 border bg-gray-800 text-white"><%= p %></span>
+            <% } else { %>
+              <a
+                href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${p}` %>"
+                class="px-3 py-1 border rounded hover:bg-gray-200"
+              ><%= p %></a>
+            <% } %>
+          <% } %>
+
+          <% /* Puntos después si hace falta */ %>
+          <% if (end < total - 1) { %>
+            <span class="px-2">…</span>
+          <% } %>
+
+          <% /* Última página siempre (si hay más de una) */ %>
+          <% if (total > 1) { %>
+            <% if (current === total) { %>
+              <span class="px-3 py-1 border bg-gray-800 text-white"><%= total %></span>
+            <% } else { %>
+              <a
+                href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${total}` %>"
+                class="px-3 py-1 border rounded hover:bg-gray-200"
+              ><%= total %></a>
+            <% } %>
+          <% } %>
+
+          <% /* Siguiente */ %>
+          <% if (currentPage < totalPages) { %>
+            <a
+              href="/users?<%= `q=${encodeURIComponent(q)}&sort=${sort}&page=${currentPage+1}` %>"
+              class="px-3 py-1 border rounded hover:bg-gray-200"
+            >Siguiente »</a>
+          <% } else { %>
+            <span class="px-3 py-1 border text-gray-400 cursor-not-allowed">Siguiente »</span>
+          <% } %>
+        </nav>
+      </div>
+    </div>
+  </div>
+    
+
+  <%- include('../layout/footer') %>
+</body>

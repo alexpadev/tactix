@@ -1,0 +1,35 @@
+<%- include('layout/header') %>
+
+<body class="bg-gray-100 text-gray-900">
+  <div class="container mx-auto p-8">
+    <h1 class="text-3xl font-bold mb-4">Lista de Usuarios</h1>
+    <table class="min-w-full table-auto border-collapse border border-gray-300">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 bg-gray-200 border border-gray-300">ID</th>
+          <th class="px-4 py-2 bg-gray-200 border border-gray-300">Nombre</th>
+          <th class="px-4 py-2 bg-gray-200 border border-gray-300">Foto</th>
+          <th class="px-4 py-2 bg-gray-200 border border-gray-300">Rol</th>
+          <th class="px-4 py-2 bg-gray-200 border border-gray-300">Email</th>
+          <th class="px-4 py-2 bg-gray-200 border border-gray-300">Contraseña</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% usuarios.forEach(usuario => { %>
+          <tr>
+            <td class="px-4 py-2 border border-gray-300"><%= usuario.id %></td>
+            <td class="px-4 py-2 border border-gray-300"><%= usuario.nombre %></td>
+            <td class="px-4 py-2 border border-gray-300">
+              <img src="<%= usuario.foto %>" alt="Foto de <%= usuario.nombre %>" class="w-16 h-16 rounded-full">
+            </td>
+            <td class="px-4 py-2 border border-gray-300"><%= usuario.rol %></td>
+            <td class="px-4 py-2 border border-gray-300"><%= usuario.email %></td>
+            <td class="px-4 py-2 border border-gray-300"><%= usuario.contraseña %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+  
+  <%- include('layout/footer') %>
+</body>

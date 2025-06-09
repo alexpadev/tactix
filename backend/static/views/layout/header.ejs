@@ -1,0 +1,36 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tactix</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+
+<header>
+  <nav class="flex justify-between items-center p-4 bg-yellow-400 text-gray-800">
+    <div>
+      <a href="/" class="text-3xl font-bold ml-3">TACTiX</a>
+      <a href="/" class="text-md font-semibold mr-8">Backoffice</a>
+      <a href="/" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Inicio</a>
+
+      <% if (user) { %>
+        <a href="/users" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Usuarios</a>
+        <a href="/teams" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Equipos</a>
+        <a href="/games" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Partidos</a>
+        <a href="/tournaments" class="ml-4 text-lg font-semibold cursor-pointer hover:text-gray-700 transition">Torneos</a>
+      <% } %>
+    </div>
+    <div>
+      <% if (user) { %>
+        <a class="font-semibold mr-8" href="http://localhost:8000">Frontend</a>
+        <span class="mr-4">Hola, <%= user.nombre || user.email %></span>
+        <form action="/logout" method="POST" class="inline">
+          <button type="submit" class="border-2 border-gray-800 text-gray-800 font-semibold py-2 px-3 rounded-full hover:bg-yellow-300 transition">Cerrar Sesión</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="text-md font-semibold mr-7 border-2 border-gray-800 hover:bg-yellow-300 transition p-3 rounded-full">Iniciar Sesión</a>
+      <% } %>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,103 @@
+<%- include("../layout/header") %>
+<body class="text-gray-900">
+  <a href="/teams" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
+    &lt; Volver
+  </a>
+
+  <div class="min-h-screen">
+    <div class="bg-gray-100 max-w-2xl mt-10 rounded-md container mx-auto p-10">
+        <h1 class="text-2xl text-gray-800 font-bold mb-10 text-center">Crear Nuevo Equipo</h1>
+        <% if (error) { %>
+          <p class="text-red-500 mb-4"><%= error %></p>
+        <% } %>
+
+        <form
+          action="/teams"
+          method="POST"
+          enctype="multipart/form-data"
+          class="space-y-4"
+        >
+          <div class="flex items-start space-x-6 mb-6">
+            <div>
+              <img
+                id="logoPreview"
+                src="/uploads/user_placeholder.png"
+                alt="Foto del equipo"
+                class="w-40 h-40 hover:opacity-70 transition object-cover cursor-pointer"
+              >
+              <input
+                type="file"
+                name="foto"
+                id="logoInput"
+                accept="image/*"
+                class="hidden"
+              >
+            </div>
+
+            <div class="flex-1 space-y-4">
+              <div>
+                <label class="block mb-1">Nombre</label>
+                <input
+                  name="nombre"
+                  class="p-2 w-full rounded"
+                  required
+                >
+              </div>
+              <div>
+                <label class="block mb-1">Límite Miembros</label>
+                <input
+                  name="limite_miembros"
+                  type="number"
+                  class="p-2 w-1/6 rounded"
+                  required
+                >
+              </div>
+              <div class="flex items-center">
+                <input
+                  id="premium"
+                  name="premium"
+                  type="checkbox"
+                  class="mr-2"
+                >
+                <label for="premium">Premium</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex w-full space-x-3">
+            <button
+              type="submit"
+              class="w-3/4 cursor-pointer bg-gray-800 hover:bg-gray-900 transition font-semibold text-white py-3 px-4 rounded-full"
+            >
+              Guardar
+            </button>
+            <a
+              href="/teams"
+              class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full"
+            >
+              Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+ 
+
+  <script>
+    const logoPreview = document.getElementById('logoPreview');
+    const logoInput   = document.getElementById('logoInput');
+
+    logoPreview.addEventListener('click', () => {
+      logoInput.click();
+    });
+
+    logoInput.addEventListener('change', () => {
+      const file = logoInput.files[0];
+      if (!file) return;
+      logoPreview.src = URL.createObjectURL(file);
+    });
+  </script>
+
+  <%- include("../layout/footer") %>
+</body>

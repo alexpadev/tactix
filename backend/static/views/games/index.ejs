@@ -1,0 +1,44 @@
+<%- include("../layout/header") %>
+<body class="text-gray-900">
+  <div class="container mx-auto p-6">
+   <div class="min-h-screen">
+      <div class="container mx-auto p-8">
+        <h1 class="text-2xl text-gray-800 font-bold mb-4">Lista de Partidos</h1>
+        <a href="/games/new" class="bg-yellow-400 text-gray-800 font-semibold hover:bg-yellow-300 transition py-2 px-4 rounded-full mb-4 inline-block">+ Nuevo Partido</a>
+        <table class="min-w-full table-auto border-collapse border border-gray-300">
+          <thead>
+            <tr>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">ID</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Fecha</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Ubicación X</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Ubicación Y</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Equipo 1</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Equipo 2</th>
+              <th class="px-4 py-2 bg-gray-800 text-white border border-gray-900">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% games.forEach(g => { %>
+              <tr class="border-t">
+                <td class="px-4 py-2 border border-gray-300"><%= g.id %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= new Date(g.fecha_inicio).toLocaleString() %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= g.ubicacion_x ?? '—' %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= g.ubicacion_y ?? '—' %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= g.equipo1 || '—' %></td>
+                <td class="px-4 py-2 border border-gray-300"><%= g.equipo2 || '—' %></td>
+                <td class="px-4 py-2 space-x-2 text-center">
+                  <a href="/games/<%= g.id %>" class="text-green-500">Ver</a>
+                  <a href="/games/<%= g.id %>/edit" class="text-blue-500">Editar</a>
+                  <form action="/games/<%= g.id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Estás seguro de que deseas borrar este usuario?');">
+                    <button type="submit" class="text-red-500">Borrar</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>  
+  </div>
+  <%- include("../layout/footer") %>
+</body>

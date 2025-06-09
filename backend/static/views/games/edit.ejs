@@ -1,0 +1,115 @@
+<%- include("../layout/header") %>
+<body class="text-gray-900">
+
+  <a href="/games" class="inline-block mt-4 text-gray-800 font-semibold ml-10 text-xl">
+    &lt; Volver
+  </a>
+  
+  <div class="min-h-screen">
+    <div class="bg-gray-100 max-w-2xl mt-10 rounded-md container mx-auto p-8">
+        <h1 class="text-2xl text-gray-800 font-bold mb-10 text-center">Editar Partido</h1>
+
+        <% if (typeof error !== 'undefined') { %>
+          <p class="text-red-500 mb-4"><%= error %></p>
+        <% } %>
+
+        <form
+          action="/games/<%= game.id %>?_method=PUT"
+          method="POST"
+          class="space-y-4"
+        >
+          <div>
+            <label class="block mb-1">Fecha y Hora</label>
+            <input
+              name="fecha_inicio"
+              type="datetime-local"
+              value="<%= new Date(game.fecha_inicio).toISOString().slice(0,16) %>"
+              class="p-2 w-full rounded"
+              required
+            >
+          </div>
+
+          <div class="flex space-x-5">
+            <div class="w-1/2">
+              <label class="block mb-1">Ubicación X</label>
+              <input
+                name="ubicacion_x"
+                type="number"
+                value="<%= game.ubicacion_x ?? '' %>"
+                class="p-2 w-full rounded"
+              >
+            </div>
+            <div class="w-1/2">
+              <label class="block mb-1">Ubicación Y</label>
+              <input
+                name="ubicacion_y"
+                type="number"
+                value="<%= game.ubicacion_y ?? '' %>"
+                class="p-2 w-full rounded"
+              >
+            </div>
+          </div>
+
+          <div class="flex space-x-5">
+            <div class="w-1/2">
+              <label class="block mb-1">Equipo 1 (ID)</label>
+              <input
+                name="equipo1_id"
+                type="number"
+                value="<%= game.equipo1_id %>"
+                class="p-2 w-full rounded"
+                required
+              >
+            </div>
+            <div class="w-1/2">
+              <label class="block mb-1">Equipo 2 (ID)</label>
+              <input
+                name="equipo2_id"
+                type="number"
+                value="<%= game.equipo2_id %>"
+                class="p-2 w-full rounded"
+                required
+              >
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-1">Dirección</label>
+            <input
+              name="direccion"
+              type="text"
+              value="<%= game.direccion ?? '' %>"
+              class="p-2 w-full rounded"
+            >
+          </div>
+
+          <div>
+            <label class="block mb-1">Número de Jugadores</label>
+            <input
+              name="player_num"
+              type="number"
+              min="1"
+              value="<%= game.player_num ?? '' %>"
+              class="p-2 w-full rounded"
+            >
+          </div>
+
+          <div class="flex w-full space-x-3">
+            <button
+              type="submit"
+              class="w-3/4 cursor-pointer bg-gray-800 hover:bg-gray-900 transition font-semibold text-white py-3 px-4 rounded-full"
+            >
+              Actualizar
+            </button>
+            <a
+              href="/games/<%= game.id %>"
+              class="w-1/4 text-center text-gray-800 bg-gray-300 hover:bg-gray-400 transition font-semibold py-3 px-4 rounded-full"
+            >
+              Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <%- include("../layout/footer") %>
+</body>

@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@import "react-calendar/dist/Calendar.css";
+
+.react-calendar__tile.has-event {
+  background: #c7d2fe;  
+}
+.react-calendar__tile--active {
+  background: #818cf8; 
+  color: white;
+}
